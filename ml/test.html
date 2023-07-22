@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Multipart File Upload</h1>
+      <form id="form" enctype="multipart/form-data">
+        <div class="input-group">
+          <label for="files">Select files</label>
+          <input id="file" type="file" multiple />
+        </div>
+        <button class="submit-btn" type="submit">Upload</button>
+      </form>
+      <img src="test.jpg" id="my-imagel" alt="">
+    </div>
+
+  </body>
+  <script>
+     const image = document.getElementById('my-image');
+
+// Get the remote image as a Blob with the fetch API
+fetch(image.src)
+    .then((res) => res.blob())
+    .then((blob) => {
+        // Read the Blob as DataURL using the FileReader API
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            console.log(reader.result);
+            // Logs data:image/jpeg;base64,wL2dvYWwgbW9yZ...
+
+            // Convert to Base64 string
+            const base64 = getBase64StringFromDataURL(reader.result);
+            console.log(base64);
+            // Logs wL2dvYWwgbW9yZ...
+        };
+        reader.readAsDataURL(blob);
+    });
+  </script>
+</html>
